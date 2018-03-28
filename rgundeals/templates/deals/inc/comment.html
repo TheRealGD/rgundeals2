@@ -2,19 +2,33 @@
 
 <li class="comment" id="comment{{ node.pk }}">
     <div class="vote-toggle">
+        <div class="upvote">
+            {% if user.is_authenticated %}
+                {% if node.vote == 1 %}
+                    <a href="{% url 'deals:comment_vote' pk=node.pk action='delete' %}" data-object="comment" data-object-id="{{ node.pk }}" class="upvote voted">
+                {% else %}
+                    <a href="{% url 'deals:comment_vote' pk=node.pk action='up' %}" data-object="comment" data-object-id="{{ node.pk }}" class="upvote">
+                {% endif %}
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            {% endif %}
+        </div>
+    <div class="downvote">
         {% if user.is_authenticated %}
-            <div class="arrow">
-                <i class="fa fa-caret-up {% if comment.vote == 1 %}text-warning{% else %}text-muted{% endif %}"></i>
-            </div>
-            <div class="arrow">
-                <i class="fa fa-caret-down {% if comment.vote == -1 %}text-warning{% else %}text-muted{% endif %}"></i>
-            </div>
+            {% if node.vote == -1 %}
+                <a href="{% url 'deals:comment_vote' pk=node.pk action='delete' %}" data-object="comment" data-object-id="{{ node.pk }}" class="downvote voted">
+            {% else %}
+                <a href="{% url 'deals:comment_vote' pk=node.pk action='down' %}" data-object="comment" data-object-id="{{ node.pk }}" class="downvote">
+            {% endif %}
+                <i class="fa fa-chevron-down"></i>
+            </a>
         {% endif %}
+    </div>
     </div>
     <div class="heading">
         <small class="text-muted">
             <strong>{% usertag node.created_by %}</strong>
-            {{ node.score }} point{{ node.score|pluralize }}
+            <span class="score">{{ node.score }}</span> point{{ node.score|pluralize }}
             {{ node.created|timesince }} ago
         </small>
     </div>

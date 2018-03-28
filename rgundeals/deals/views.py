@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+
 from django.views.generic import View
 
 from utils.pagination import EnhancedPaginator
@@ -169,10 +171,20 @@ class VoteDealView(LoginRequiredMixin, View):
         deal = Deal.objects.get(pk=deal.pk)
 
         return JsonResponse({
+            'voted': True if action in ['up', 'down'] else False,
+            'upvote': reverse('deals:deal_vote', kwargs={
+                'pk': deal.pk,
+                'action': 'delete' if action == 'up' else 'up',
+            }),
+            'downvote': reverse('deals:deal_vote', kwargs={
+                'pk': deal.pk,
+                'action': 'delete' if action == 'down' else 'down',
+            }),
             'score': deal.score,
         })
 
 
+# TODO: Merge with VoteDealView
 class VoteCommentView(LoginRequiredMixin, View):
     """
     Vote on a comment (up, down, or delete)
@@ -207,5 +219,14 @@ class VoteCommentView(LoginRequiredMixin, View):
         comment = Comment.objects.get(pk=comment.pk)
 
         return JsonResponse({
+            'voted': True if action in ['up', 'down'] else False,
+            'upvote': reverse('deals:comment_vote', kwargs={
+                'pk': comment.pk,
+                'action': 'delete' if action == 'up' else 'up',
+            }),
+            'downvote': reverse('deals:comment_vote', kwargs={
+                'pk': comment.pk,
+                'action': 'delete' if action == 'down' else 'down',
+            }),
             'score': comment.score,
         })

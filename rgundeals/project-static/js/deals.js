@@ -34,36 +34,23 @@ $(document).ready(function() {
         return false;
     });
 
-    // Vote on a deal
+    // Vote on a deal/comment
     $('a.upvote, a.downvote').click(function() {
 
         var link = $(this);
-        var deal_id = link.data('deal-id');
+        var parent_id = '#' + link.data('object') + link.data('object-id');
 
         $.post(
             this.href,
             {csrfmiddlewaretoken: crsftoken},
             function(data) {
-                // Delete a vote
-                if (link.hasClass('voted')) {
-                    if (link.hasClass('upvote')) {
-                        link.attr('href', '/deals/' + deal_id + '/vote/up/');
-                    } else {
-                        link.attr('href', '/deals/' + deal_id + '/vote/down/');
-                    }
-                    $('#deal' + deal_id + ' a.voted').removeClass('voted');
-                // Upvote/downvote
-                } else {
-                    if (link.hasClass('upvote')) {
-                        $('#downvote' + deal_id).attr('href', '/deals/' + deal_id + '/vote/down/');
-                    } else {
-                        $('#upvote' + deal_id).attr('href', '/deals/' + deal_id + '/vote/up/');
-                    }
-                    link.attr('href', '/deals/' + deal_id + '/vote/delete/');
-                    $('#deal' + deal_id + ' a.voted').removeClass('voted');
+                $(parent_id + ' .vote-toggle a').removeClass('voted');
+                $(parent_id + ' .upvote').attr('href', data.upvote);
+                $(parent_id + ' .downvote').attr('href', data.downvote);
+                $(parent_id + ' .score').html(data.score);
+                if (data.voted) {
                     link.addClass('voted');
                 }
-                $('#deal' + deal_id + ' .score').html(data.score);
             }
         );
 

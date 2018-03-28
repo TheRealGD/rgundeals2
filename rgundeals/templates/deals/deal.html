@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12 deal">
+        <div class="col-12 deal" id="deal{{ deal.pk }}">
             {% if request.user == deal.created_by or request.user.is_staff %}
                 <div class="pull-right">
                     <a href="{% url 'deals:deal_edit' pk=deal.pk %}" class="btn btn-warning">

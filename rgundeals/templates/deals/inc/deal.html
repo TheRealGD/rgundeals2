@@ -4,9 +4,9 @@
     <div class="upvote">
         {% if user.is_authenticated %}
             {% if deal.vote == 1 %}
-                <a href="{% url 'deals:deal_vote' pk=deal.pk action='delete' %}" data-deal-id="{{ deal.pk }}" class="upvote voted" id="upvote{{ deal.pk }}">
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='delete' %}" data-object="deal" data-object-id="{{ deal.pk }}" class="upvote voted">
             {% else %}
-                <a href="{% url 'deals:deal_vote' pk=deal.pk action='up' %}" data-deal-id="{{ deal.pk }}" class="upvote" id="upvote{{ deal.pk }}">
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='up' %}" data-object="deal" data-object-id="{{ deal.pk }}" class="upvote">
             {% endif %}
                 <i class="fa fa-chevron-up"></i>
             </a>
@@ -18,9 +18,9 @@
     <div class="downvote">
         {% if user.is_authenticated %}
             {% if deal.vote == -1 %}
-                <a href="{% url 'deals:deal_vote' pk=deal.pk action='delete' %}" data-deal-id="{{ deal.pk }}" class="downvote voted" id="downvote{{ deal.pk }}">
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='delete' %}" data-object="deal" data-object-id="{{ deal.pk }}" class="downvote voted">
             {% else %}
-                <a href="{% url 'deals:deal_vote' pk=deal.pk action='down' %}" data-deal-id="{{ deal.pk }}" class="downvote" id="downvote{{ deal.pk }}">
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='down' %}" data-object="deal" data-object-id="{{ deal.pk }}" class="downvote">
             {% endif %}
                 <i class="fa fa-chevron-down"></i>
             </a>
