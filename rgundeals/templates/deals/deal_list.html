@@ -82,9 +82,10 @@
                 </div>
                 <div class="list-group list-group-flush">
                     {% recursetree categories %}
-                        <a href="{{ node.get_absolute_url }}" class="list-group-item list-group-item-action{% if node.parent %} subcategory{% endif %}">
+                        <a href="{{ node.get_absolute_url }}" class="list-group-item list-group-item-action{% if request.GET.category == node.slug %} active{% endif %}">
+                            {% if node.parent %}<i class="fa fa-angle-right"></i>{% endif %}
                             {{ node }}
-                            <span class="badge badge-secondary pull-right">{{ node.deal_count }}</span>
+                            <span class="badge {% if request.GET.category == node.slug %}badge-light{% else %}badge-secondary{% endif %} pull-right">{{ node.deal_count }}</span>
                         </a>
                         {% if not node.is_leaf_node %}
                             {{ children }}

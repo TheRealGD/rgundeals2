@@ -48,8 +48,12 @@ class DealListView(View):
         deals = paginator.get_page(request.GET.get('page', 1))
 
         # Get list of all categories
-        categories = Category.objects.annotate(
-            deal_count=Count('deals')
+        categories = Category.objects.add_related_count(
+            queryset=Category.objects.all(),
+            rel_model=Deal,
+            rel_field='category',
+            count_attr='deal_count',
+            cumulative=True
         )
 
         return render(request, self.template_name, {
