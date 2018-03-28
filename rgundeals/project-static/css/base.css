@@ -1,0 +1,70 @@
+
+/* Deals */
+.deal .vote-toggle {
+    float: left;
+    width: 50px;
+}
+.deal .vote-toggle .upvote,
+.deal .vote-toggle .downvote {
+    height: 16px;
+    text-align: center;
+}
+.deal .vote-toggle .score {
+    height: 16px;
+    text-align: center;
+}
+.deal .heading {
+    padding-left: 50px;
+}
+.deal .heading .title {
+    margin-bottom: 0;
+}
+.deal .links {
+    margin-bottom: 2px;
+    padding-left: 50px;
+}
+.deal .description {
+    margin-top: 10px;
+    padding-left: 50px;
+}
+
+/* Comments */
+ul.comments {
+    margin-left: 30px;
+}
+.comment .vote-toggle {
+    float: left;
+    width: 20px;
+}
+.comment .vote-toggle .arrow {
+    font-size: 130%;
+    height: 12px;
+    text-align: center;
+}
+.comment .heading {
+    padding-left: 22px;
+}
+.comment .body {
+    padding-left: 22px;
+}
+.comment .links {
+    padding-left: 22px;
+}
+.comment .reply-form {
+    padding-left: 22px;
+}
+.comment .reply-form textarea {
+    height: 100px;
+    width: 500px;
+}
+
+/* Voting */
+a.upvote, a.downvote {
+    color: #c0c0c0;
+}
+.upvote a.voted {
+    color: rgb(0, 123, 255);
+}
+.downvote a.voted {
+    color: rgb(255, 193, 7);
+}

@@ -1,0 +1,64 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}rGunDeals{% endblock %}</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="{% static "css/base.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+
+            <!--navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+                <a class="navbar-brand" href="#">rGunDeals</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'deals:deal_list' %}">Deals <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                    <span class="navbar-text">
+                        {% if request.user.is_authenticated %}
+                            Logged in as <a href="{{ request.user.get_absolute_url }}">{{ request.user }}</a> |
+                            {% if request.user.is_staff %}
+                                <a href="{% url 'admin:index' %}">Admin</a> |
+                            {% endif %}
+                            <a href="{% url 'users:logout' %}">Logout</a>
+                        {% else %}
+                            <a href="{% url 'users:login' %}">Log In</a> |
+                            <a href="{% url 'users:register' %}">Register</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </nav>
+
+            <!-- messages -->
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <!-- content -->
+            {% block content %}{% endblock %}
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="{% static "js/deals.js" %}"></script>
+        <script type="text/javascript">
+            var crsftoken = '{{ csrf_token }}';
+        </script>
+    </body>
+</html>

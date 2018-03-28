@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 deal">
+            {% if request.user == deal.created_by or request.user.is_staff %}
+                <div class="pull-right">
+                    <a href="{% url 'deals:deal_edit' pk=deal.pk %}" class="btn btn-warning">
+                        <i class="fa fa-pencil"></i> Edit
+                    </a>
+                </div>
+            {% endif %}
+            {% include 'deals/inc/deal.html' %}
+            {% if deal.description %}
+                <div class="description">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ deal.description }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <ul class="list-unstyled comments">
+        {% if comments %}
+            {% recursetree comments %}
+                {% include 'deals/inc/comment.html' %}
+            {% endrecursetree %}
+        {% else %}
+            <li class="text-muted">No comments yet</li>
+        {% endif %}
+    </ul>
+{% endblock %}

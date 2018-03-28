@@ -1,0 +1,4 @@
+*.pyc
+/.idea
+/rgundeals/rgundeals/configuration.py
+/*.sh

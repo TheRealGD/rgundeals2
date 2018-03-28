@@ -1,0 +1,63 @@
+{% load usertags %}
+
+<div class="vote-toggle">
+    <div class="upvote">
+        {% if user.is_authenticated %}
+            {% if deal.vote == 1 %}
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='delete' %}" data-deal-id="{{ deal.pk }}" class="upvote voted" id="upvote{{ deal.pk }}">
+            {% else %}
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='up' %}" data-deal-id="{{ deal.pk }}" class="upvote" id="upvote{{ deal.pk }}">
+            {% endif %}
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        {% endif %}
+    </div>
+    <div class="score">
+        {{ deal.score }}
+    </div>
+    <div class="downvote">
+        {% if user.is_authenticated %}
+            {% if deal.vote == -1 %}
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='delete' %}" data-deal-id="{{ deal.pk }}" class="downvote voted" id="downvote{{ deal.pk }}">
+            {% else %}
+                <a href="{% url 'deals:deal_vote' pk=deal.pk action='down' %}" data-deal-id="{{ deal.pk }}" class="downvote" id="downvote{{ deal.pk }}">
+            {% endif %}
+                <i class="fa fa-chevron-down"></i>
+            </a>
+        {% endif %}
+    </div>
+</div>
+<div class="heading">
+    <h5 class="title">
+        <a href="{{ deal.url }}"{% if deal.is_expired %} class="text-danger"{% endif %}>{% if deal.out_of_stock %}<del>{{ deal.title }}</del>{% else %}{{ deal.title }}{% endif %}</a>
+        {% if deal.price %}
+            ${{ deal.price }}
+            {% if deal.qty > 1 %}
+                <small class="text-muted">(${{ deal.unit_price }}/ea)</small>
+            {% endif %}
+        {% elif deal.discount %}
+            {{ deal.discount }}%
+        {% endif %}
+    </h5>
+    <div class="details">
+        <span class="badge" style="background-color: #{{ deal.category.color }}">
+            <a href="{{ deal.category.get_absolute_url }}" class="text-white">{{ deal.category }}</a>
+        </span>
+        <small class="text-muted">
+            <span title="{{ deal.created }}">{{ deal.created|timesince }}</span> by {% usertag deal.created_by %} &middot;
+            {% if deal.vendor %}
+                <a href="?vendor={{ deal.vendor.slug }}">{{ deal.vendor }}</a>
+            {% else %}
+                <a href="?domain={{ deal.domain }}">{{ deal.domain }}</a>
+            {% endif %}
+        </small>
+        {% if deal.out_of_stock %}
+            &middot; <small class="font-weight-bold text-muted">Out of stock</small>
+        {% endif %}
+        {% if deal.expires and not deal.is_expired %}
+            &middot; <small class="text-muted">Expires in <strong title="{{ deal.expires }}">{{ deal.expires|timeuntil }}</strong></small>
+        {% elif deal.is_expired %}
+            &middot; <small class="font-weight-bold text-danger" title="{{ deal.expires }}">Expired</small>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,43 @@
+{% load usertags %}
+
+<li class="comment" id="comment{{ node.pk }}">
+    <div class="vote-toggle">
+        {% if user.is_authenticated %}
+            <div class="arrow">
+                <i class="fa fa-caret-up {% if comment.vote == 1 %}text-warning{% else %}text-muted{% endif %}"></i>
+            </div>
+            <div class="arrow">
+                <i class="fa fa-caret-down {% if comment.vote == -1 %}text-warning{% else %}text-muted{% endif %}"></i>
+            </div>
+        {% endif %}
+    </div>
+    <div class="heading">
+        <small class="text-muted">
+            <strong>{% usertag node.created_by %}</strong>
+            {{ node.score }} point{{ node.score|pluralize }}
+            {{ node.created|timesince }} ago
+        </small>
+    </div>
+    <div class="body">
+        {{ node.body }}
+    </div>
+    <ul class="list-inline links">
+        <li class="list-inline-item text-muted">
+            <small>
+                <i class="fa fa-reply"></i>
+                <a href="#" class="comment-reply" data-comment-id="{{ node.pk }}">reply</a>
+            </small>
+        </li>
+        <li class="list-inline-item text-muted">
+            <small>
+                <i class="fa fa-warning"></i>
+                report
+            </small>
+        </li>
+    </ul>
+    {% if not node.is_leaf_node %}
+        <ul class="list-unstyled comments">
+            {{ children }}
+        </ul>
+    {% endif %}
+</li>

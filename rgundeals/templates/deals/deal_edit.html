@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h1>Submit a New Deal</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        {% bootstrap_field form.title %}
+                    </div>
+                    <div class="col-md-8">
+                        {% bootstrap_field form.url %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form.category %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form.price %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form.qty %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form.discount %}
+                    </div>
+                    <div class="col-md-6">
+                        {% bootstrap_field form.expires %}
+                    </div>
+                    <div class="col-md-6">
+                        {% bootstrap_field form.coupon_code %}
+                    </div>
+                    <div class="col-md-12">
+                        {% bootstrap_field form.description %}
+                    </div>
+                </div>
+                {% if user.is_staff %}
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">Mod Tools</div>
+                        <div class="card-body row">
+                            <div class="col-md-8">
+                                {% bootstrap_field form.vendor %}
+                            </div>
+                            <div class="col-md-4">
+                                {% bootstrap_field form.locked %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        {% if form.instance.pk %}
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                            <a href="{{ form.instance.get_absolute_url }}" class="btn btn-light">Cancel</a>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Submit Deal
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
