@@ -39,22 +39,17 @@ class CategoryAdmin(admin.ModelAdmin):
     deal_count.short_description = 'Deals'
 
 
-def set_locked(modeladmin, request, queryset):
-    queryset.update(locked=True)
-set_locked.short_description = "Lock selected deals"
-
-
-def set_out_of_stock(modeladmin, request, queryset):
-    queryset.update(out_of_stock=True)
-set_out_of_stock.short_description = "Mark selected deals out of stock"
-
-
 @admin.register(Deal)
 class DealAdmin(admin.ModelAdmin):
-    actions = (set_locked, set_out_of_stock)
+    actions = ('set_locked', 'set_out_of_stock')
     list_display = ('title', 'score', 'created', 'created_by', 'vendor', 'locked', 'out_of_stock')
     list_filter = ('locked', 'out_of_stock', 'created', 'vendor')
     search_fields = ('title', 'url', 'description', 'created_by__username')
+
+    def get_queryset(self, request):
+        # Include created_by user
+        qs = super().get_queryset(request)
+        return qs.select_related('created_by')
 
     def save_model(self, request, obj, form, change):
 
@@ -67,7 +62,21 @@ class DealAdmin(admin.ModelAdmin):
 
         super().save_model(request, obj, form, change)
 
+    def set_locked(self, request, queryset):
+        queryset.update(locked=True)
+    set_locked.short_description = "Lock selected deals"
+
+
+    def set_out_of_stock(self, request, queryset):
+        queryset.update(out_of_stock=True)
+    set_out_of_stock.short_description = "Mark selected deals out of stock"
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('created_by', 'created', 'deal')
+
+    def get_queryset(self, request):
+        # Include created_by user
+        qs = super().get_queryset(request)
+        return qs.select_related('created_by')
