@@ -7,6 +7,9 @@
             {% for deal in deals %}
                 <div class="row">
                     <div class="col-12 deal mb-2" id="deal{{ deal.pk }}">
+                        <div class="index">
+                            {{ deals.start_index|add:forloop.counter0 }}
+                        </div>
                         {% include 'deals/inc/deal.html' %}
                         <ul class="list-inline text-muted links">
                             {% if deal.description %}
@@ -64,6 +67,7 @@
                     No deals found
                 </div>
             {% endfor %}
+            {% include 'utils/inc/paginator.html' with page=deals %}
         </div>
         <div class="col-md-3">
             {% if request.user.is_authenticated %}
@@ -86,7 +90,6 @@
                             {{ children }}
                         {% endif %}
                     {% endrecursetree %}
-
                 </div>
             </div>
         </div>
