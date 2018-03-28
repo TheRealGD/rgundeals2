@@ -29,7 +29,7 @@ class DealListView(View):
             'created_by', 'edited_by', 'category'
         ).annotate(
             comment_count=Count('comments')
-        )[:1000]  # Limit the queryset to 1000 deals total
+        )
 
         # Filter the queryset by request parameters
         queryset = DealFilter(request.GET, queryset).qs

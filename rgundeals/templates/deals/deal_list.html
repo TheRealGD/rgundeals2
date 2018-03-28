@@ -55,7 +55,7 @@
                             <div class="description collapse">
                                 <div class="card">
                                     <div class="card-body">
-                                        {{ deal.description }}
+                                        {{ deal.description_rendered|safe }}
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="list-group list-group-flush">
                     {% recursetree categories %}
-                        <a href="{{ node.get_absolute_url }}" class="list-group-item list-group-item-action">
+                        <a href="{{ node.get_absolute_url }}" class="list-group-item list-group-item-action{% if node.parent %} subcategory{% endif %}">
                             {{ node }}
                             <span class="badge badge-secondary pull-right">{{ node.deal_count }}</span>
                         </a>

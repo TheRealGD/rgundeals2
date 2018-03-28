@@ -96,8 +96,10 @@ class Category(MPTTModel):
     )
 
     class Meta:
-        ordering = ('name',)
         verbose_name_plural = 'categories'
+
+    class MPTTMeta:
+        order_insertion_by=('name',)
 
     def __str__(self):
         return self.name
