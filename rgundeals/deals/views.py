@@ -5,6 +5,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
 
+from utils.pagination import EnhancedPaginator
 from .filters import DealFilter
 from .forms import DealForm, ModDealForm
 from .models import Category, Comment, CommentVote, Deal, DealVote, SCORE_DOWN, SCORE_UP
@@ -28,7 +29,7 @@ class DealListView(View):
             'created_by', 'edited_by', 'category'
         ).annotate(
             comment_count=Count('comments')
-        )
+        )[:1000]  # Limit the queryset to 1000 deals total
 
         # Filter the queryset by request parameters
         queryset = DealFilter(request.GET, queryset).qs
@@ -42,13 +43,17 @@ class DealListView(View):
             for d in queryset:
                 d.vote = votes[d.pk] if d.pk in votes else None
 
+        # Paginate deals list
+        paginator = EnhancedPaginator(queryset, request.GET.get('per_page'))
+        deals = paginator.get_page(request.GET.get('page', 1))
+
         # Get list of all categories
         categories = Category.objects.annotate(
             deal_count=Count('deals')
         )
 
         return render(request, self.template_name, {
-            'deals': queryset,
+            'deals': deals,
             'categories': categories,
         })
 

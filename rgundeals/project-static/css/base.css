@@ -1,8 +1,16 @@
 
 /* Deals */
+.deal .index {
+    color: #d0d0d0;
+    float: left;
+    height: 48px;
+    padding-top: 16px;
+    text-align: right;
+    width: 20px;
+}
 .deal .vote-toggle {
     float: left;
-    width: 50px;
+    width: 40px;
 }
 .deal .vote-toggle .upvote,
 .deal .vote-toggle .downvote {
@@ -14,18 +22,18 @@
     text-align: center;
 }
 .deal .heading {
-    padding-left: 50px;
+    padding-left: 60px;
 }
 .deal .heading .title {
     margin-bottom: 0;
 }
 .deal .links {
     margin-bottom: 2px;
-    padding-left: 50px;
+    padding-left: 60px;
 }
 .deal .description {
     margin-top: 10px;
-    padding-left: 50px;
+    padding-left: 60px;
 }
 
 /* Comments */

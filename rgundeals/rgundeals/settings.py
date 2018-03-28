@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     # Local
     'users',
     'deals',
+    'utils',
 ]
 
 MIDDLEWARE = [
@@ -101,3 +102,7 @@ INTERNAL_IPS = [
 BOOTSTRAP4 = {
     'required_css_class': 'font-weight-bold',
 }
+
+# Pagination
+DEFAULT_PAGE_SIZE = 50
+MAX_PAGE_SIZE = 200
