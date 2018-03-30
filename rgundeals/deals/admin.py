@@ -2,14 +2,19 @@ from django.contrib import admin
 from django.db.models import Count
 from django.utils import timezone
 
-from .models import Category, Comment, Deal, Vendor
+from .models import Category, Comment, Deal, Vendor, VendorDomain
+
+
+class VendorDomainInline(admin.TabularInline):
+    model = VendorDomain
 
 
 @admin.register(Vendor)
 class VendorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'domains', 'url', 'deal_count')
+    list_display = ('name', 'url', 'deal_count')
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ('name', 'domains', 'url')
+    search_fields = ('name', 'url')
+    inlines = [VendorDomainInline, ]
 
     def get_queryset(self, request):
         # Include count of assigned deals
