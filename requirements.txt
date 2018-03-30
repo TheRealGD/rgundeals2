@@ -7,6 +7,7 @@ django-debug-toolbar==1.9.1
 django-filter==1.1.0
 django-js-asset==1.0.0
 django-mptt==0.9.0
+gunicorn==19.7.1
 ipython==6.2.1
 ipython-genutils==0.2.0
 jedi==0.11.1
