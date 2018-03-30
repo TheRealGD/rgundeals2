@@ -48,7 +48,7 @@ SCORE_CHOICES = (
 
 
 class VendorDomain(models.Model):
-    domain = models.CharField(max_length=255, help_text="Vendor Domain")
+    domain = models.CharField(max_length=255, help_text="Vendor Domain", unique=True)
     vendor = models.ForeignKey('Vendor', on_delete=models.CASCADE)
 
     def __str__(self):
