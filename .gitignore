@@ -1,9 +1,13 @@
+# Python specific stuff
 *.py[cod]
 /.idea
 /rgundeals/rgundeals/configuration.py
 /*.sh
 *.iml
 pip-log.txt
+
+# Misc things
+temp*.*
 
 # Some defaults on django
 *.log
