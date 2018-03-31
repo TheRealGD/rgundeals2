@@ -66,8 +66,14 @@ heroku local
 
 ### Setting up dokku to push
 
-1. Add dokku as a remote :
+1. Add dokku develop branch as a remote target in git:
 
 ```
-git 
+git remote add dev dokku@hostname:gundeals-dev
+```
+
+2. Add dokku staging branch as a remote target in git:
+
+```
+git remote add dokku dokku@hostname:gundeals-staging
 ```
