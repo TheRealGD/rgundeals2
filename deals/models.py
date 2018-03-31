@@ -47,6 +47,14 @@ SCORE_CHOICES = (
 )
 
 
+class VendorDomain(models.Model):
+    domain = models.CharField(max_length=255, help_text="Vendor Domain", unique=True)
+    vendor = models.ForeignKey('Vendor', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.domain
+
+
 class Vendor(models.Model):
     name = models.CharField(
         max_length=100,
@@ -58,10 +66,6 @@ class Vendor(models.Model):
     url = models.URLField(
         verbose_name='URL',
         help_text="Public-facing website"
-    )
-    domains = ArrayField(
-        base_field=models.CharField(max_length=100),
-        help_text="URLs matching any of these domains will be associated with this vendor"
     )
 
     class Meta:
@@ -225,7 +229,10 @@ class Deal(models.Model):
 
         # Assign vendor based on URL domain upon creation of new deals
         if not self.pk and not self.vendor and self.domain:
-            self.vendor = Vendor.objects.filter(domains__contains=[self.domain]).order_by('pk').first()
+            try:
+                self.vendor = VendorDomain.objects.get(domain=self.domain).vendor
+            except VendorDomain.DoesNotExist:
+                pass
 
         return super().save(*args, **kwargs)
 
