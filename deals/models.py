@@ -141,7 +141,7 @@ class Deal(models.Model):
         max_length=255
     )
     url = models.URLField(
-        max_length=255,
+        max_length=2048,
         verbose_name='URL'
     )
     score = models.SmallIntegerField(
