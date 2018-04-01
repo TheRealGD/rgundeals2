@@ -61,6 +61,7 @@ class Vendor(models.Model):
         help_text="Company name"
     )
     slug = models.SlugField(
+        max_length=255,
         unique=True
     )
     url = models.URLField(
@@ -92,6 +93,7 @@ class Category(MPTTModel):
         unique=True
     )
     slug = models.SlugField(
+        max_length=255,
         unique=True
     )
     color = models.CharField(
@@ -141,7 +143,7 @@ class Deal(models.Model):
         max_length=255
     )
     url = models.URLField(
-        max_length=2048,
+        max_length=4096,
         verbose_name='URL'
     )
     score = models.SmallIntegerField(
